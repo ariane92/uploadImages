@@ -7,10 +7,11 @@ const routes = Router();
 const upload = multer(multerConfig);
 
 routes.post('/posts', upload.single('file'), async (request, response) => {
+  const { originalname: name, size, filename: key } = request.file;
   const post = await Post.create({
-    name: request.file.originalname,
-    size: request.file.size,
-    key: request.file.filename,
+    name,
+    size,
+    key,
     url: '',
   });
   return response.json(post);
